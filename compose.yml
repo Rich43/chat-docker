@@ -1,0 +1,22 @@
+version: "3.7"
+services:
+  chat-server:
+    image: docker.io/pynguins/chat-server:latest
+    ports:
+      - 6060:4000
+    networks:
+      - chat
+  chat-client:
+    image: docker.io/pynguins/chat-client:latest
+    ports:
+      - 5050:80
+    links:
+      - chat-server
+    depends_on:
+      - chat-server
+    environment:
+      CHAT_SERVER_HOST: chat-server
+    networks:
+      - chat
+networks:
+  chat:
